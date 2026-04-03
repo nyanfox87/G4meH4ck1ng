@@ -1,0 +1,68 @@
+# --- Unity Folders ---
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Mm]emoryCaptures/
+/[Uu]ser[Ss]ettings/
+/[Pp]ackages/manifest-lock.json
+/[Ee]xported[Oo]bj/
+
+# --- Assets & Plugins ---
+/[Aa]ssets/AssetStoreTools*
+/[Aa]ssets/Plugins/PlasticSCM*
+# Addressables
+**/[Aa]ssets/AddressableAssetsData/*/*.bin*
+**/[Aa]ssets/StreamingAssets/aa.meta
+**/[Aa]ssets/StreamingAssets/*/aa/*
+
+# --- Project Files (IDE Specific) ---
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.sln.iml
+.vs/
+.vscode/
+.idea/
+.gradle/
+.consulo/
+
+# --- Unity Meta Files (Generated) ---
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+*.private
+*.private.meta
+
+# --- Temporary & System Files ---
+*.tmp
+*.log
+sysinfo.txt
+crashlytics-build.properties
+~UnityDirMonSyncFile~*
+.DS_Store*
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# --- Build Artifacts ---
+*.apk
+*.aab
+*.unitypackage
+*.app

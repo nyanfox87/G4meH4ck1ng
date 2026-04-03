@@ -1,0 +1,4 @@
+repository "CookieClicker/CookieClicker@33262890948502@cloud"
+  path "/"
+    br "/main"
+    co "/main"
