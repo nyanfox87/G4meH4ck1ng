@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using System.Collections;
 
 public class BakeMinigame : MonoBehaviour
 {
@@ -31,23 +33,27 @@ public class BakeMinigame : MonoBehaviour
 
     void Update()
     {
-        // Mouse click stops the slider
-        if (Input.GetMouseButtonDown(0) && !isStopped)
+        // 1. STOP: Click Left Mouse OR Press Space
+        bool stopInput = (Pointer.current != null && Pointer.current.press.wasPressedThisFrame) || 
+                         (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame);
+
+        if (stopInput && !isStopped)
         {
             isStopped = true;
-            CheckResult();
+            // Start the delayed check instead of calling it directly
+            StartCoroutine(DelayedCheck(0.5f)); 
         }
 
-        // Escape resumes
-        if (Input.GetKeyDown(KeyCode.Escape) && isStopped)
+        // 2. RESUME: Press Escape
+        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame && isStopped)
         {
             isStopped = false;
             if (resultText != null) resultText.text = "";
+            StopAllCoroutines(); // Stop any pending checks if they hit Esc early
         }
 
         if (!isStopped)
         {
-            // Bounce slider back and forth
             f_BakePos += sliderSpeed * direction * Time.deltaTime;
             if (f_BakePos >= 100f) { f_BakePos = 100f; direction = -1f; }
             if (f_BakePos <= 0f) { f_BakePos = 0f; direction = 1f; }
@@ -57,20 +63,39 @@ public class BakeMinigame : MonoBehaviour
         if (bakeSlider != null) bakeSlider.value = f_BakePos;
         if (positionText != null) positionText.text = f_BakePos.ToString("F2");
 
-        // Update slider color based on zone
         UpdateSliderColor();
+    }
+
+    // This is the new Coroutine for the delay
+    IEnumerator DelayedCheck(float delay)
+    {
+        if (resultText != null) resultText.text = "Checking..."; // Optional: Tell player it's processing
+        
+        yield return new WaitForSeconds(delay); // Wait for 0.5 seconds
+        
+        CheckResult();
     }
 
     private void UpdateSliderColor()
     {
         if (sliderFill == null) return;
 
+        // We use "else" to ensure only one color is applied at a time
         if (f_BakePos >= 48f && f_BakePos <= 52f)
-            sliderFill.color = new Color(1f, 0.65f, 0f); // Orange
+        {
+            // Perfect Zone: Orange
+            sliderFill.color = new Color(1f, 0.65f, 0f, 1f); 
+        }
         else if ((f_BakePos >= 40f && f_BakePos < 48f) || (f_BakePos > 52f && f_BakePos <= 60f))
+        {
+            // Near Zone: Yellow
             sliderFill.color = Color.yellow;
+        }
         else
-            sliderFill.color = Color.gray;
+        {
+            // Fail Zone: Gray (Darker gray so it's visible)
+            sliderFill.color = new Color(0.4f, 0.4f, 0.4f, 1f);
+        }
     }
 
     private void CheckResult()

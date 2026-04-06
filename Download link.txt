@@ -1,0 +1,2 @@
+AssetStudio https://github.com/aelurum/AssetStudio/releases/tag/v0.19.0
+CheatEngine https://www.cheatengine.org/

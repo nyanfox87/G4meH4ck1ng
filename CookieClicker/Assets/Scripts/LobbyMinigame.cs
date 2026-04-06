@@ -56,12 +56,8 @@ public class LobbyMinigame : MonoBehaviour
 
     private void OnGameStartSuccess()
     {
-        // Check if game was started with only 1 actual player (DLL patching)
-        if (playerCount < 2)
-        {
             if (FlagManager.Instance != null) FlagManager.Instance.UnlockFlag05();
             if (resultText != null) resultText.text = "LONE WOLF! " + FlagManager.FLAG_05;
-        }
     }
 
     private void GoBack()

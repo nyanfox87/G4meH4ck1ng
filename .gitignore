@@ -1,0 +1,10 @@
+AssetStudioModGUI_net9_win64.zip
+windowsdesktop-runtime-9.0.14-win-x64.exe
+AssetStudioModGUI_net9_win64/
+Build*/
+Il2CppDumper-net7-win-v6.7.46.zip
+Il2CppDumper-net7-win-v6.7.46/
+CheatEngine76.exe
+assetstudio_output/
+.vsconfig
+.venv/

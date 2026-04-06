@@ -103,8 +103,8 @@ public class UIManager : MonoBehaviour
             }
             else
             {
-                flagTexts[i].text = FlagManager.FlagNames[i] + "\n<color=#FF0000>LOCKED</color>\n" + FlagManager.FlagHints[i];
-                flagTexts[i].color = Color.white;
+                flagTexts[i].text = FlagManager.FlagNames[i] + "\n" + FlagManager.FlagHints[i];
+                flagTexts[i].color = Color.black;
             }
         }
     }
