@@ -8,3 +8,8 @@ CheatEngine76.exe
 assetstudio_output/
 .vsconfig
 .venv/
+*.PTR
+*.PTR*
+*.scandata*
+*.scandata
+sample/

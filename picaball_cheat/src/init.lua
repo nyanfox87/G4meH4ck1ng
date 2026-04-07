@@ -1,58 +1,78 @@
-print('hello')
+local MODULE_PATH = [[;.\src\?.lua]]
 
-local app = require('src.config.app')
+local function isTrainer()
+    local appName = getApplication().ExeName
+    return appName and appName:lower():find('cheatengine')
+end
 
-local process = app.process
-assert(process, 'Missing process name in config: expected app.process or app.picaball.process')
+if isTrainer() then
+    if not string.endsWith(package.path, MODULE_PATH) then
+        package.path = package.path .. MODULE_PATH
+    end
+end
 
-print(process)
+local app = require('config.app')
+local window = require('views.window')
+local menu = require('views.menu')
+
+trainer = {
+    attached = false,
+    pid = nil,
+}
 
 local function getPID()
     local processes = getProcesslist()
-    local pid = nil
 
     for pid, name in pairs(processes) do
-        if name == process then
+        if name == app.client.picaball.name then
             return pid
         end
     end
     return nil
 end
 
+local function detachTrainer()
+    if not trainer.attached then
+        return
+    end
+
+    trainer.attached = false
+    trainer.pid = nil
+    menu.detach()
+end
+
+local function attachTrainer(pid)
+    if trainer.attached and trainer.pid == pid then
+        return
+    end
+
+    trainer.attached = true
+    trainer.pid = pid
+    openProcess(pid)
+    menu.attach()
+end
+
 local function autoAttach()
     local pid = getPID()
-    if pid then
-        -- print('Auto-attaching to process: ' .. process .. ' with PID: ' .. pid)
-        openProcess(pid)
-        attached = true
+
+    if not pid then
+        detachTrainer()
     else
-        -- print('Process not found for auto-attach: ' .. process)
-        pid = nil
-        if not attached then
-            return
-        end
-        
-        window.destroy()
+        attachTrainer(pid)
     end
 end
 
-local function createWindow()
-    local title = app.window.title or 'Cheat Window'
-    local width = app.window.width or 800
-    local height = app.window.height or 600
-    window = createForm(nil)
-    window.setCaption(title)
-    window.setWidth(width)
-    window.setHeight(height)
-    attached = false
+local function create()
+    window.draw()
+    menu.draw()
 
-    local MainForm = getMainForm()
-    local attachTimer = createTimer(MainForm)
+    local mainForm = getMainForm()
+    local attachTimer = createTimer(mainForm)
 
-    attachTimer.setInterval(1000) -- Check every second
+    attachTimer.setInterval(1000)
     attachTimer.setOnTimer(autoAttach)
 
     window.show()
 end
 
-createWindow()
+create()

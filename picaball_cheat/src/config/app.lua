@@ -1,10 +1,13 @@
 return {
     version = '0.1.0',
-    window = 
-    {
+    window = {
         title = 'Picaball Cheat',
-        width = 800,
-        height = 600,
+        width = 420,
+        height = 220,
     },
-    process = 'picaball.exe',
+    client = {
+        picaball = {
+            name = 'picaball.exe',
+        },
+    },
 }
