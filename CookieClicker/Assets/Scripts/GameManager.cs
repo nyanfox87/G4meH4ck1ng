@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
         // Load saved data
         SaveSystem.LoadInto(this);
 
-        Screen.SetResolution(1920, 1080, FullScreenMode.Windowed);
+        Screen.SetResolution(1080, 1920, FullScreenMode.Windowed);
     }
 
     void Update()
